@@ -1,4 +1,6 @@
 
+var teste;
+
 /* Função auxiliar para reescrever a barra de status */
 function updateText(status) {
   document.getElementById("status").textContent=status;
@@ -12,6 +14,8 @@ $(document).ready(function() {
 
       // Setup Twilio.Device
       device = new Twilio.Device(data, {});
+
+      teste = device;
 
       device.on("ready", function(device) {
         console.log("Twilio.Ready");
@@ -69,7 +73,7 @@ function endCall() {
 /* Ação do botão de mutar chamada - invocado no HTML */
 function muteCall() {
   console.log("Mudo ativado.");
-  Twilio.Device.activeConnection().mute(True);
+  device.activeConnection().mute(true);
 }
 
 /* Abaixo está o código do dial pad */
