@@ -1,6 +1,3 @@
-
-var teste;
-
 /* Função auxiliar para reescrever a barra de status */
 function updateText(status) {
   document.getElementById("status").textContent=status;
