@@ -86,7 +86,7 @@ $("#call").on('click', function(){
 
 });
 
-/* Função que controla o botão de encerrar chamada */
+/* Função que controla o botão de encerrar chamada, tanto para chamadas realizadas quanto para chamadas recebidas */
 $("#hangup").on('click', function(){
 
   if (incomingConnection){
