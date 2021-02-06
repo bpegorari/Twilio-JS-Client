@@ -44,7 +44,6 @@ $(document).ready(function() {
 
       device.on("incoming", function(conn) {
         console.log("Incoming support call");
-        console.log(conn.message);
         document.getElementById("stringDestino").textContent = conn.customParameters.get("CallerNumber");
         enableIncomingCallButton();
         enableHangupCallButton();
