@@ -169,3 +169,11 @@ $(".digito").on('click', function() {
 
 });
 
+// EM TESTES - ADICIONAR FUNCIONALIDADE DO BOTAO ENTER PARA DISPARAR UMA CHAMADA
+$('.stringDestino').on('keydown', 'input, select', function(e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    console.log("Pressionado");
+  }
+});
+

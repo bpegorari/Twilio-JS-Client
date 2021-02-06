@@ -10,6 +10,7 @@ body {
 
 .numberInput {
   width: 65%;
+  white-space: nowrap;
   background-color: rgb(126, 208, 219);
   padding: 2% 5%;
   margin-left: auto;
