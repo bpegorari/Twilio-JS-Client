@@ -58,7 +58,6 @@ $(document).ready(function() {
 
 /* Ação da <Div> que retorna o status da chamada */
 function checkStatus(){
-  console.log('function checkStatus() executado.');
   var status = device.status();
   updateText(status);
 }
@@ -132,11 +131,9 @@ function triggerMuteButton(){
   if (device.activeConnection().isMuted() == false){
     document.getElementById("muteImg").className='fas fa-volume-mute';
     device.activeConnection().mute(true);
-    console.log("Mudo ativado.");
   } else {
     document.getElementById("muteImg").className='fas fa-volume-up';
     device.activeConnection().mute(false);
-    console.log("Mudo desativado.");
   }
 }
 
