@@ -15,6 +15,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  font-size: 25px;
 }
 
 .fileira{
@@ -25,7 +26,6 @@ body {
 .fileiraPainel{
   background-color: darkgrey;
   width: 65%;
-  padding: 5%;
   margin-left: auto;
   margin-right: auto;
 }
