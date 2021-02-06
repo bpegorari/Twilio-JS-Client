@@ -90,6 +90,8 @@ $("numberInput").bind("keydown", function(e){
 
 });
 
+/* As funções a seguir alteram a cor do botão phone. */
+
 function disableButton(){
   $('#call').css("background-color","grey");
 }
