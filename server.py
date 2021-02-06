@@ -23,10 +23,10 @@ def get_token():
     outgoing_application_sid = os.getenv("APP_SID")
 
     # Create access token with credentials
-    token = AccessToken(account_sid, api_key, api_secret, identity="teste")
+    token = AccessToken(account_sid, api_key, api_secret, identity="123456789")
 
     # Create a Voice grant and add to token
-    voice_grant = VoiceGrant(outgoing_application_sid=outgoing_application_sid)
+    voice_grant = VoiceGrant(outgoing_application_sid=outgoing_application_sid, incoming_allow=True)
     token.add_grant(voice_grant)
     return (token.to_jwt())
 

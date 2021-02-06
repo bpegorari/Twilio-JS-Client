@@ -12,7 +12,9 @@ $(document).ready(function() {
         enableRingingState: true,
         codecPreferences: ["opus", "pcmu"],
         fakeLocalDTMF: true,
-        debug: true
+        allowIncomingWhileBusy: true,
+        debug: true,
+        warnings: true
       });
 
       device.on("ready", function(device) {
