@@ -1,5 +1,5 @@
-var onCall = false;
 var device;
+var incomingConnection; //Foi necessário declarar esta variavel para armazenar uma chamada recebida no escopo global, fora do handler device incoming
 
 console.log("Requesting Access Token...");
 
@@ -29,21 +29,21 @@ $(document).ready(function() {
 
       device.on("connect", function(conn) {
         console.log("In call with ");
-        onCall = true;
-        hangupButton();
+        enableHangupCallButton();
         checkStatus();
       });
 
       device.on("disconnect", function(conn) {
         console.log("Disconnect");
-        onCall = false;
-        enableButton();
+        enablePlaceAcceptCallButton();
+        disableHangupCallButton();
         checkStatus();
       });
 
       device.on("incoming", function(conn) {
         console.log("Incoming support call");
-        incomingButton();
+        enableIncomingCallButton();
+        incomingConnection = conn;
         checkStatus();
       });
       
@@ -66,41 +66,56 @@ function updateText(status) {
   document.getElementById("status").textContent=status;
 }
 
-/* Função que controla o botão de iniciar discagem */
+/* Função que controla o botão de iniciar/antemner chamada */
 $("#call").on('click', function(){
+  // Ao ser clicado, botão será desabitado
+  disablePlaceAcceptCallButton();
 
-  // Caso o cliente não esteja em chamada, apertar o botão de ligar irá enviar os parametros da chamada
-  if (onCall === false){
-    disableButton();
-
+  //Caso haja uma incoming connection, a chamada será atendida. Caso constrário, o client fará uma discagem com os valores no cmapo de inpu
+  if (incomingConnection){
+    incomingConnection.accept();
+  } 
+  else {
     var destino = document.getElementById("stringDestino").textContent;
     var destinoFormatado = "+" + destino;
     var params = {"phoneNumber": destinoFormatado};
     device.connect(params);
-
-  } 
-  else {
-    device.disconnectAll();
   }
 
 });
 
-/* As funções a seguir alteram a cor do botão phone. */
+/* Função que controla o botão de encerrar chamada */
+$("#hangup").on('click', function(){
 
-function disableButton(){
-  $('#call').css("background-color","grey");
+  device.disconnectAll();
+  enablePlaceAcceptCallButton();
+
+});
+
+/* As funções a seguir alteram a cor e a disponibilidade dos botões de controle de chamada. */
+
+function enablePlaceAcceptCallButton(){
+  $('.call').css("background-color","green");
+  $('.call').attr("disabled", false);
 }
 
-function enableButton(){
-  $('#call').css("background-color","green");
+function disablePlaceAcceptCallButton(){
+  $('.call').css("background-color","grey");
+  $('.call').attr("disabled", true);
 }
 
-function hangupButton(){
-  $('#call').css("background-color","red");
+function enableIncomingCallButton(){
+  $('.call').css("background-color","blue");
 }
 
-function incomingButton(){
-  $('#call').css("background-color","blue");
+function enableHangupCallButton(){
+  $('.hangup').css("background-color","red");
+  $('.hangup').attr("disabled", false);
+}
+
+function disableHangupCallButton(){
+  $('.hangup').css("background-color","grey");
+  $('.hangup').attr("disabled", true);
 }
 
 /* Ação do botão de mutar chamada */

@@ -42,8 +42,11 @@ body {
 .botao{
   margin: 3%;
 }
-
-#call{
+.hangup{
+  background-color: red;
+  margin: 50%;
+}
+.call{
   background-color: lightgreen;
 }
 
