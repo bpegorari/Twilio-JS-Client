@@ -1,3 +1,5 @@
+var onCall = false;
+
 /* Função auxiliar para reescrever a barra de status */
 function updateText(status) {
   document.getElementById("status").textContent=status;
@@ -12,31 +14,33 @@ $(document).ready(function() {
       // Setup Twilio.Device
       device = new Twilio.Device(data, {});
 
-      teste = device;
-
       device.on("ready", function(device) {
         console.log("Twilio.Ready");
-        checkStatus()
+        checkStatus();
       });
 
       device.on("error", function(error) {
         console.log("Twilio.Device Error: " + error.message);
-        checkStatus()
+        checkStatus();
       });
 
       device.on("connect", function(conn) {
         console.log("In call with ");
+        onCall = true;
+        hangupButton();
         checkStatus();
       });
 
       device.on("disconnect", function(conn) {
         console.log("Disconnect");
-        checkStatus()
+        onCall = false;
+        enableButton();
+        checkStatus();
       });
 
       device.on("incoming", function(conn) {
         console.log("Incoming support call");
-        checkStatus()
+        checkStatus();
       });
       
     })
@@ -48,44 +52,80 @@ $(document).ready(function() {
 
 /* Ação da <Div> que retorna o status da chamada - invocado no HTML */
 function checkStatus(){
-  console.log('function checkStatus() invoked.');
+  console.log('function checkStatus() executado.');
   var status = device.status();
   updateText(status);
 }
 
-/* Ação do botão de realizar chamada - invocado no HTML */
-function placeCall() {
-  var destino = document.getElementById("output").textContent;
-  var destinoFormatado = "+" + destino;
-  var params = {"phoneNumber": destinoFormatado};
-  device.connect(params);
+/* Função que controla o botão de iniciar discagem*/
+$("#call").on('click', function(){
+
+  if (onCall === false){
+    console.log("Discando");
+    disableButton();
+
+    var destino = document.getElementById("stringDestino").textContent;
+    var destinoFormatado = "+" + destino;
+    var params = {"phoneNumber": destinoFormatado};
+    device.connect(params);
+
+  } 
+  else {
+    console.log("onCall == false");
+    console.log("Encerrar chamada.");
+    device.disconnectAll();
+  }
+
+});
+
+function disableButton(){
+  $('#call').css("background-color","grey");
 }
 
-/* Ação do botão de encerrar chamada - invocado no HTML */
+function enableButton(){
+  $('#call').css("background-color","green");
+}
+
+function hangupButton(){
+  $('#call').css("background-color","red");
+}
+
+
+function checkStatus(){
+  var status = device.status();
+  updateText(status);
+}
+
+/* Ação do botão de encerrar chamada - DEPRECATED */
 function endCall() {
   console.log("Encerrar chamada.");
   device.disconnectAll();
 }
 
-/* Ação do botão de mutar chamada - invocado no HTML */
-function muteCall() {
+/* Ação do botão de mutar chamada */
+$("#mute").on('click', function(){
   console.log("Mudo ativado.");
   device.activeConnection().mute(true);
-}
+});
 
-/* Abaixo está o código do dial pad */
-var count = 0;
+/* Ação do botão de limpar o número */ 
+$('#clear').on('click', function() {
+  document.getElementById("stringDestino").textContent='';
+});
 
-$(".digit").on('click', function() {
-  var num = ($(this).clone().children().remove().end().text());
-  if (count < 13) {
-    $("#output").append('<span>' + num.trim() + '</span>');
+/* Ação dos digitos numéricos do diapad */
+$(".digito").on('click', function() {
 
-    count++
+  // A variável abaixo coleta o valor de dentro dos <span>s "digitos". 
+  numInput = $(this).text();
+
+  // A variavel abaixo coleta o valor atual dos digitos no "visor".
+  stringDestino = document.getElementById("stringDestino");
+
+  // Aqui garantimos que a string tenha no mázimo 15 digitos (começa em 0)
+  if (stringDestino.textContent.length < 15){
+   stringDestino.textContent = stringDestino.textContent + numInput;
   }
+
 });
 
-$('.fa-long-arrow-left').on('click', function() {
-  $('#output span:last-child').remove();
-  count--;
-});
