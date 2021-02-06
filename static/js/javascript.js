@@ -38,11 +38,14 @@ $(document).ready(function() {
         console.log("Disconnect");
         enablePlaceAcceptCallButton();
         disableHangupCallButton();
+        limpaCampo();
         checkStatus();
       });
 
       device.on("incoming", function(conn) {
         console.log("Incoming support call");
+        console.log(conn.message);
+        document.getElementById("stringDestino").textContent = conn.customParameters.get("CallerNumber");
         enableIncomingCallButton();
         enableHangupCallButton();
         incomingConnection = conn;
@@ -137,6 +140,10 @@ function triggerMuteButton(){
   }
 }
 
+function limpaCampo(){
+  document.getElementById("stringDestino").textContent='';
+}
+
 /* Ação do botão de mutar chamada */
 $("#mute").on('click', function(){
   triggerMuteButton();
@@ -144,7 +151,7 @@ $("#mute").on('click', function(){
 
 /* Ação do botão de limpar o número */ 
 $('#clear').on('click', function() {
-  document.getElementById("stringDestino").textContent='';
+  limpaCampo();
 });
 
 /* Ação dos digitos numéricos do diapad */
