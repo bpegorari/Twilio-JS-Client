@@ -37,6 +37,7 @@ $(document).ready(function() {
         console.log("Disconnect");
         enablePlaceAcceptCallButton();
         disableHangupCallButton();
+        incomingConnection = '';
         checkStatus();
       });
 
