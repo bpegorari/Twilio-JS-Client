@@ -37,13 +37,13 @@ $(document).ready(function() {
         console.log("Disconnect");
         enablePlaceAcceptCallButton();
         disableHangupCallButton();
-        incomingConnection = '';
         checkStatus();
       });
 
       device.on("incoming", function(conn) {
         console.log("Incoming support call");
         enableIncomingCallButton();
+        enableHangupCallButton();
         incomingConnection = conn;
         checkStatus();
       });
@@ -75,6 +75,7 @@ $("#call").on('click', function(){
   //Caso haja uma incoming connection, a chamada será atendida. Caso constrário, o client fará uma discagem com os valores no cmapo de inpu
   if (incomingConnection){
     incomingConnection.accept();
+    incomingConnection = '';
   } 
   else {
     var destino = document.getElementById("stringDestino").textContent;
@@ -88,8 +89,15 @@ $("#call").on('click', function(){
 /* Função que controla o botão de encerrar chamada */
 $("#hangup").on('click', function(){
 
-  device.disconnectAll();
-  enablePlaceAcceptCallButton();
+  if (incomingConnection){
+    incomingConnection.reject();
+    incomingConnection = '';
+    enablePlaceAcceptCallButton();
+    disableHangupCallButton();
+  } else {
+    device.disconnectAll();
+    enablePlaceAcceptCallButton();
+  }
 
 });
 
