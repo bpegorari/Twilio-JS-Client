@@ -19,12 +19,12 @@ body {
 
 .fileira{
   padding: 10%;
-  background-color: coral;
+  background-color: white;
 }
 
 .fileiraPainel{
   background-color: darkgrey;
-  width: 70%;
+  width: 65%;
   padding: 5%;
   margin-left: auto;
   margin-right: auto;
@@ -33,7 +33,7 @@ body {
 
 .digito{
   padding: 20px 30px;
-  background-color: darksalmon;
+  background-color: white;
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
@@ -41,11 +41,12 @@ body {
 
 .botao{
   margin: 3%;
+  margin-left: 10%;
 }
 .hangup{
   background-color: grey;
   margin: 5%;
-  margin-left: 36%;
+  margin-left: 42%;
 }
 .call{
   background-color: lightgreen;

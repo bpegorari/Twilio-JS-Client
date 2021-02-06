@@ -1,6 +1,7 @@
 var device;
 var incomingConnection; //Foi necessário declarar esta variavel para armazenar uma chamada recebida no escopo global, fora do handler device incoming
 
+
 console.log("Requesting Access Token...");
 
 $(document).ready(function() {
@@ -101,7 +102,7 @@ $("#hangup").on('click', function(){
 
 });
 
-/* As funções a seguir alteram a cor e a disponibilidade dos botões de controle de chamada. */
+/* Funções a seguir alteram a cor e a disponibilidade dos botões de controle de chamada. */
 
 function enablePlaceAcceptCallButton(){
   $('.call').css("background-color","green");
@@ -127,10 +128,21 @@ function disableHangupCallButton(){
   $('.hangup').attr("disabled", true);
 }
 
+function triggerMuteButton(){
+  if (device.activeConnection().isMuted() == false){
+    document.getElementById("muteImg").className='fas fa-volume-mute';
+    device.activeConnection().mute(true);
+    console.log("Mudo ativado.");
+  } else {
+    document.getElementById("muteImg").className='fas fa-volume-up';
+    device.activeConnection().mute(false);
+    console.log("Mudo desativado.");
+  }
+}
+
 /* Ação do botão de mutar chamada */
 $("#mute").on('click', function(){
-  console.log("Mudo ativado.");
-  device.activeConnection().mute(true);
+  triggerMuteButton();
 });
 
 /* Ação do botão de limpar o número */ 

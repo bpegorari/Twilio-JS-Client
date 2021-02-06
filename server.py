@@ -3,7 +3,6 @@ from flask import Flask, render_template, request
 from twilio.jwt.access_token import AccessToken
 from twilio.jwt.access_token.grants import VoiceGrant
 from twilio.twiml.voice_response import Dial, VoiceResponse
-from dotenv import load_dotenv
 
 
 account_sid = os.getenv("ACCOUNT_SID")
