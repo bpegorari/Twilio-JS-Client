@@ -9,7 +9,10 @@ $(document).ready(function() {
 
       // Setup Twilio.Device
       device = new Twilio.Device(data, {
-        enableRingingState: true
+        enableRingingState: true,
+        codecPreferences: ["opus", "pcmu"],
+        fakeLocalDTMF: true,
+        debug: true
       });
 
       device.on("ready", function(device) {
@@ -64,8 +67,8 @@ function updateText(status) {
 /* Função que controla o botão de iniciar discagem */
 $("#call").on('click', function(){
 
+  // Caso o cliente não esteja em chamada, apertar o botão de ligar irá enviar os parametros da chamada
   if (onCall === false){
-    console.log("Discando");
     disableButton();
 
     var destino = document.getElementById("stringDestino").textContent;
@@ -75,17 +78,7 @@ $("#call").on('click', function(){
 
   } 
   else {
-    console.log("onCall == false");
-    console.log("Encerrar chamada.");
     device.disconnectAll();
-  }
-
-});
-
-$("numberInput").bind("keydown", function(e){
-  
-  if (e.keyCode == 13) {
-    console.log("ENTER");
   }
 
 });
