@@ -1,9 +1,5 @@
 var onCall = false;
-
-/* Função auxiliar para reescrever a barra de status */
-function updateText(status) {
-  document.getElementById("status").textContent=status;
-}
+var device;
 
 console.log("Requesting Access Token...");
 
@@ -12,7 +8,9 @@ $(document).ready(function() {
     .then(function(data) {
 
       // Setup Twilio.Device
-      device = new Twilio.Device(data, {});
+      device = new Twilio.Device(data, {
+        enableRingingState: true
+      });
 
       device.on("ready", function(device) {
         console.log("Twilio.Ready");
@@ -40,6 +38,7 @@ $(document).ready(function() {
 
       device.on("incoming", function(conn) {
         console.log("Incoming support call");
+        incomingButton();
         checkStatus();
       });
       
@@ -50,14 +49,19 @@ $(document).ready(function() {
     })
 });
 
-/* Ação da <Div> que retorna o status da chamada - invocado no HTML */
+/* Ação da <Div> que retorna o status da chamada */
 function checkStatus(){
   console.log('function checkStatus() executado.');
   var status = device.status();
   updateText(status);
 }
 
-/* Função que controla o botão de iniciar discagem*/
+/* Função para reescrever a barra de status */
+function updateText(status) {
+  document.getElementById("status").textContent=status;
+}
+
+/* Função que controla o botão de iniciar discagem */
 $("#call").on('click', function(){
 
   if (onCall === false){
@@ -78,6 +82,14 @@ $("#call").on('click', function(){
 
 });
 
+$("numberInput").bind("keydown", function(e){
+  
+  if (e.keyCode == 13) {
+    console.log("ENTER");
+  }
+
+});
+
 function disableButton(){
   $('#call').css("background-color","grey");
 }
@@ -90,16 +102,8 @@ function hangupButton(){
   $('#call').css("background-color","red");
 }
 
-
-function checkStatus(){
-  var status = device.status();
-  updateText(status);
-}
-
-/* Ação do botão de encerrar chamada - DEPRECATED */
-function endCall() {
-  console.log("Encerrar chamada.");
-  device.disconnectAll();
+function incomingButton(){
+  $('#call').css("background-color","blue");
 }
 
 /* Ação do botão de mutar chamada */
