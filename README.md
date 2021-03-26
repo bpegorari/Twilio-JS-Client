@@ -1,4 +1,4 @@
-This is my first development project and you ARE GOING TO FIND bad programming pratices. I'm sorry about that, please help me increase my development skills by sharing suggestions / reporting bugs. Enough talk, let's check the requisites to start using the extension.
+This is my first development project and YOU ARE GOING TO FIND bad programming pratices. I'm sorry about that, please help me increase my development skills by sharing suggestions / reporting bugs. Enough talk, let's check the requisites to start using the extension.
 
 The Flask server have two endpoints to this service: /createToken, /connectCall.
 
